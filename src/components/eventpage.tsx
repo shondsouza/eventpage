@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, User, Phone, DollarSign, Code, Database, Cpu, Terminal, Music, Mic, Drama, Users, Sparkles, Trophy, Lightbulb, Rocket } from 'lucide-react';
+import { Calendar, Clock, User, Phone, DollarSign, Code, Database, Cpu, Terminal, Music, Mic, Drama, Users, Sparkles, Trophy, Lightbulb, Rocket, ShoppingCart, X } from 'lucide-react';
 
 interface Event {
   id: number;
@@ -18,9 +18,19 @@ interface Event {
   studentCoordinator?: string;
 }
 
-const EventRegistrationPage = () => {
+interface CartItem extends Event {
+  quantity: number;
+}
+
+interface EventRegistrationPageProps {
+  onProceedToCheckout?: (cartItems: CartItem[], totalAmount: number) => void;
+}
+
+const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPageProps) => {
   const [activeCategory, setActiveCategory] = useState('technical');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [showCart, setShowCart] = useState(false);
 
   const handleRegister = (event: Event) => {
     setSelectedEvent(event);
@@ -28,6 +38,61 @@ const EventRegistrationPage = () => {
 
   const handleBack = () => {
     setSelectedEvent(null);
+  };
+
+  // Add event to cart (only once)
+  const addToCart = (event: Event) => {
+    setCart(prevCart => {
+      // Check if event already exists in cart
+      const existingItem = prevCart.find(item => item.id === event.id);
+      if (existingItem) {
+        // Event already in cart, don't add duplicate
+        return prevCart;
+      } else {
+        // Add new event to cart with quantity 1
+        return [...prevCart, { ...event, quantity: 1 }];
+      }
+    });
+  };
+
+  // Remove event from cart
+  const removeFromCart = (eventId: number) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== eventId));
+  };
+
+  // Update quantity in cart
+  const updateQuantity = (eventId: number, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(eventId);
+      return;
+    }
+    
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === eventId ? { ...item, quantity } : item
+      )
+    );
+  };
+
+  // Calculate total amount
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => {
+      // Handle "TBA" or non-numeric amounts
+      if (item.amount === "TBA") return total;
+      
+      const amount = parseFloat(item.amount.replace('₹', '').replace(',', '')) || 0;
+      return total + (amount * item.quantity);
+    }, 0);
+  };
+
+  // Proceed to checkout
+  const handleProceedToCheckout = () => {
+    if (onProceedToCheckout) {
+      onProceedToCheckout(cart, calculateTotal());
+    } else {
+      // Default behavior if no callback is provided
+      alert(`Proceeding to checkout. Total amount: ₹${calculateTotal()}`);
+    }
   };
 
   // Background pattern components for each category
@@ -299,7 +364,7 @@ const EventRegistrationPage = () => {
       category: "technical",
       tagline: "Poster Designing",
       description: "Individual poster design competition. Software provided: Figma, Canva, Photoshop. Topic assigned on spot.",
-      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
+      image: "https://images.unsplash.com/photo-1561070791-29b0f74f9713?w=800&q=80",
       date: "TBA",
       time: "TBA",
       organizer: "Ms. Kyathi",
@@ -555,7 +620,7 @@ const EventRegistrationPage = () => {
       category: "cultural",
       tagline: "Face Painting",
       description: "Two in a team. 2 hrs time limit. Bring your own materials. Topic given on spot. Only water color paints allowed.",
-      image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+      image: "https://images.unsplash.com/photo-1513364776144-ce544e77e70f?w=800&q=80",
       date: "Day 2",
       time: "TBA",
       organizer: "Prof. Prafulla Shetty",
@@ -741,10 +806,15 @@ const EventRegistrationPage = () => {
                     </div>
 
                     <button 
-                      onClick={() => handleRegister(event)}
-                      className="mt-6 w-full bg-blue-400 text-black font-black py-3 rounded-lg hover:bg-blue-300 transition"
+                      onClick={() => addToCart(event)}
+                      disabled={cart.some(item => item.id === event.id)}
+                      className={`mt-6 w-full font-black py-3 rounded-lg transition ${
+                        cart.some(item => item.id === event.id)
+                          ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                          : "bg-blue-400 text-black hover:bg-blue-300"
+                      }`}
                     >
-                      REGISTER
+                      {cart.some(item => item.id === event.id) ? "ADDED TO CART" : "ADD TO CART"}
                     </button>
                   </div>
                 </div>
@@ -762,6 +832,91 @@ const EventRegistrationPage = () => {
           </p>
         </div>
       </div>
+
+      {/* Floating Cart Button */}
+      {cart.length > 0 && (
+        <button
+          onClick={() => setShowCart(true)}
+          className="fixed bottom-6 right-6 bg-blue-400 text-black p-4 rounded-full shadow-lg hover:bg-blue-300 transition z-50"
+        >
+          <div className="flex items-center">
+            <ShoppingCart className="w-6 h-6" />
+            <span className="ml-2 font-bold">{cart.length}</span>
+          </div>
+        </button>
+      )}
+
+      {/* Cart Modal */}
+      {showCart && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-black text-white">Your Cart</h2>
+                <button
+                  onClick={() => setShowCart(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {cart.length === 0 ? (
+                <p className="text-gray-400 text-center py-8">Your cart is empty</p>
+              ) : (
+                <>
+                  <div className="space-y-4">
+                    {cart.map(item => (
+                      <div key={item.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
+                        <div className="flex-1">
+                          <h3 className="font-bold text-white">{item.title}</h3>
+                          <p className="text-gray-400 text-sm">{item.tagline}</p>
+                          <p className="text-blue-400 font-bold">
+                            {item.amount === "TBA" ? "TBA" : `₹${item.amount}`}
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-bold">1</span>
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="ml-4 text-red-500 hover:text-red-400"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-gray-700">
+                    <div className="flex justify-between items-center mb-6">
+                      <span className="text-xl font-bold text-white">Total:</span>
+                      <span className="text-2xl font-black text-blue-400">
+                        {cart.some(item => item.amount === "TBA") 
+                          ? "TBA (Some events have TBA pricing)" 
+                          : `₹${calculateTotal()}`}
+                      </span>
+                    </div>
+                    <button
+                      onClick={handleProceedToCheckout}
+                      disabled={cart.some(item => item.amount === "TBA")}
+                      className={`w-full font-black py-4 rounded-lg transition ${
+                        cart.some(item => item.amount === "TBA")
+                          ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                          : "bg-blue-400 text-black hover:bg-blue-300"
+                      }`}
+                    >
+                      {cart.some(item => item.amount === "TBA")
+                        ? "WAIT FOR PRICING UPDATE"
+                        : "PROCEED TO CHECKOUT"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
