@@ -1,11 +1,28 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, DollarSign, Code, Database, Cpu, Terminal, Music, Mic, Drama, Users, Sparkles, Trophy, Lightbulb, Rocket } from 'lucide-react';
 
+interface Event {
+  id: number;
+  title: string;
+  category: string;
+  tagline: string;
+  description: string;
+  image: string;
+  date: string;
+  time: string;
+  organizer: string;
+  contact: string;
+  amount: string;
+  teamSize: string;
+  gradient: string;
+  studentCoordinator?: string;
+}
+
 const EventRegistrationPage = () => {
   const [activeCategory, setActiveCategory] = useState('technical');
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
-  const handleRegister = (event) => {
+  const handleRegister = (event: Event) => {
     setSelectedEvent(event);
   };
 
@@ -310,33 +327,291 @@ const EventRegistrationPage = () => {
     },
     {
       id: 10,
-      title: "Battle of Bands",
+      title: "YAKSHA KALARAM",
       category: "cultural",
-      tagline: "Rock the stage",
-      description: "Showcase your musical talent in an electrifying band competition.",
-      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=800&q=80",
-      date: "TBA",
+      tagline: "Yakshagana Performance",
+      description: "Individual Yakshagana performance. 8+2 mins for Natya and Arthagarike. Himmela should be recorded.",
+      image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80",
+      date: "Day 1",
       time: "TBA",
-      organizer: "TBA",
-      contact: "TBA",
+      organizer: "Prof. Ananya J",
+      contact: "+91 9845790058",
       amount: "TBA",
-      teamSize: "team",
-      gradient: "from-red-600 to-rose-700"
+      teamSize: "individual",
+      gradient: "from-yellow-600 to-orange-700",
+      studentCoordinator: "S H Adithya (8073256702)"
     },
     {
       id: 11,
-      title: "Street Dance Championship",
+      title: "SHRINGAR VISMAY",
       category: "cultural",
-      tagline: "Move to the beat",
-      description: "Bring your crew and dominate the dance floor with killer moves.",
-      image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&q=80",
-      date: "TBA",
+      tagline: "Fashion Walk",
+      description: "Fashion show with 4-6 members. Time: 4+1 mins. Any theme welcomed - bring creativity to the runway!",
+      image: "https://images.unsplash.com/photo-1558769132-cb1aea3c5b55?w=800&q=80",
+      date: "Day 1",
       time: "TBA",
-      organizer: "TBA",
+      organizer: "Prof. Anupama",
       contact: "TBA",
       amount: "TBA",
       teamSize: "team",
-      gradient: "from-indigo-500 to-purple-600"
+      gradient: "from-pink-500 to-purple-600",
+      studentCoordinator: "Sowparnika Shetty (9113810849)"
+    },
+    {
+      id: 12,
+      title: "RUN-BHUMI",
+      category: "cultural",
+      tagline: "Gully Cricket",
+      description: "6+1 players per team. 3 overs, different bowlers. Six considered out. Overarm bowling only. ID card compulsory.",
+      image: "https://images.unsplash.com/photo-1540747913346-19e32778a8e1?w=800&q=80",
+      date: "Day 1",
+      time: "TBA",
+      organizer: "Prof. Suryakanth",
+      contact: "+91 9980811082",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-green-600 to-emerald-700",
+      studentCoordinator: "Chirag Shetty (8792876922)"
+    },
+    {
+      id: 13,
+      title: "LUDO SAMRAT",
+      category: "cultural",
+      tagline: "Ludo Championship",
+      description: "Individual Ludo competition. Pre-install Ludo King app. No team-ups. Any foul play leads to disqualification.",
+      image: "https://images.unsplash.com/photo-1566694271453-390536dd1f0d?w=800&q=80",
+      date: "Day 1",
+      time: "TBA",
+      organizer: "Prof. Diana D'Souza",
+      contact: "+91 7795604890",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-red-500 to-orange-600",
+      studentCoordinator: "Charan Reddy (9731596319)"
+    },
+    {
+      id: 14,
+      title: "DRISHYA MAHIMA",
+      category: "cultural",
+      tagline: "Reel Making",
+      description: "Two in a team. Max 60 seconds. Must be original creation. Submit within allotted time.",
+      image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80",
+      date: "Day 1",
+      time: "TBA",
+      organizer: "Prof. Pooja",
+      contact: "TBA",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-purple-600 to-pink-600",
+      studentCoordinator: "Jefin (7510593275)"
+    },
+    {
+      id: 15,
+      title: "BATTLE OF BANDS",
+      category: "cultural",
+      tagline: "Live Music Competition",
+      description: "5-12 members, minimum 3 live instruments. 15 mins including sound check. Songs in any language permitted.",
+      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=800&q=80",
+      date: "28th December, 5:30 PM",
+      time: "5:30 PM",
+      organizer: "Prof. Sheryl Iona",
+      contact: "+91 8197201536",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-red-600 to-rose-700",
+      studentCoordinator: "Akash singh (8296856531)"
+    },
+    {
+      id: 16,
+      title: "KOHJ KSHETRA",
+      category: "cultural",
+      tagline: "Treasure Hunt",
+      description: "4 in a team. Solve puzzles, riddles or links. No tampering with other teams. Follow all rules or face disqualification.",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Vignesh",
+      contact: "+91 7204273146",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-amber-600 to-yellow-700",
+      studentCoordinator: "Ananya rao (8147158229)"
+    },
+    {
+      id: 17,
+      title: "AGNI CHAKRAVYUHA",
+      category: "cultural",
+      tagline: "Free Fire Tournament",
+      description: "4 players squad. Mobile only - no triggers/iPads/emulators. Map: Bermuda, Level 30+. Report 10 mins before match.",
+      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Mohammed Hashim",
+      contact: "+91 9061293705",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-orange-600 to-red-700",
+      studentCoordinator: "Ganesh (7483896493)"
+    },
+    {
+      id: 18,
+      title: "SHAKTHI SANGRAM",
+      category: "cultural",
+      tagline: "Tug of War",
+      description: "7 players +1 substitute (max 570kg combined). Shoulder pulling not allowed. Scaling on 28-11-2025 before 10 AM.",
+      image: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Suryakanth",
+      contact: "+91 9980811082",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-blue-600 to-indigo-700",
+      studentCoordinator: "Kishan kumar (7558892264)"
+    },
+    {
+      id: 19,
+      title: "TAAL YUDHA",
+      category: "cultural",
+      tagline: "Face-Off Dance",
+      description: "Dance battle to live DJ beats. Music genres change for each pair. Judges choose winners until final 2 dancers remain.",
+      image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Kyathi",
+      contact: "+91 8296849083",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-purple-600 to-pink-700",
+      studentCoordinator: "Siri V S (6362184296)"
+    },
+    {
+      id: 20,
+      title: "BHAVA SPHRUTHI",
+      category: "cultural",
+      tagline: "Solo Dance",
+      description: "Classical/semi-classical solo dance. 3+1 mins. Submit music 1 day prior. Fire, color, smoke restricted.",
+      image: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Spoorthi B Shetty",
+      contact: "+91 9482906943",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-rose-500 to-pink-600",
+      studentCoordinator: "Akshitha (7975059513)"
+    },
+    {
+      id: 21,
+      title: "NRITHYA PARVA",
+      category: "cultural",
+      tagline: "Group Dance",
+      description: "6-10 members. 4+1 mins. Any dance form allowed. Submit music 1 day prior. Fire, color, smoke restricted.",
+      image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Shwetha Rai",
+      contact: "+91 7349013217",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-indigo-500 to-purple-600",
+      studentCoordinator: "Sushmitha S k (9353249945)"
+    },
+    {
+      id: 22,
+      title: "ANIME VICHAR",
+      category: "cultural",
+      tagline: "Anime Quiz",
+      description: "Individual anime quiz competition. 4 rounds total. No electronic devices allowed during competition.",
+      image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Thejash",
+      contact: "+91 8075773051",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-blue-500 to-cyan-600",
+      studentCoordinator: "Chandan Ponnappa (6360162184)"
+    },
+    {
+      id: 23,
+      title: "SANGEETH SPARSH",
+      category: "cultural",
+      tagline: "Solo Singing",
+      description: "Solo singing in any language. 3+1 mins. With/without karaoke. Submit tracks 2 days prior. Max 1 instrument allowed.",
+      image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Ashwini",
+      contact: "+91 9743079974",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-teal-500 to-green-600",
+      studentCoordinator: "Ananya R (9148136288)"
+    },
+    {
+      id: 24,
+      title: "RANG MUKHAM",
+      category: "cultural",
+      tagline: "Face Painting",
+      description: "Two in a team. 2 hrs time limit. Bring your own materials. Topic given on spot. Only water color paints allowed.",
+      image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Prafulla Shetty",
+      contact: "+91 7204549248",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-pink-500 to-rose-600",
+      studentCoordinator: "Harshitha Banjan (7559457095)"
+    },
+    {
+      id: 25,
+      title: "CHAVI-CHITHRA",
+      category: "cultural",
+      tagline: "Photography",
+      description: "Individual photography within campus. Digital camera only. No editing/manipulation. Submit best capture.",
+      image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Deepthi",
+      contact: "+91 9880501735",
+      amount: "TBA",
+      teamSize: "individual",
+      gradient: "from-gray-600 to-slate-700",
+      studentCoordinator: "Joyston (8296839379)"
+    },
+    {
+      id: 26,
+      title: "RANG DHARA",
+      category: "cultural",
+      tagline: "Brand Rangoli",
+      description: "Two members per team. 1 hour time limit. Multiple teams from same college welcome.",
+      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Roshal Lynshal Nazareth",
+      contact: "+91 7899506648",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-orange-500 to-red-600",
+      studentCoordinator: "Smruthi sudhakaran (8139885955)"
+    },
+    {
+      id: 27,
+      title: "VEERA SAMARA",
+      category: "cultural",
+      tagline: "BGMI Tournament",
+      description: "4 players per team. Mobile only, no emulators. Level 30+ required. No hacks/cheats. Only registered players allowed.",
+      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+      date: "Day 2",
+      time: "TBA",
+      organizer: "Prof. Savan Shetty",
+      contact: "+91 6360841765",
+      amount: "TBA",
+      teamSize: "team",
+      gradient: "from-red-500 to-orange-600",
+      studentCoordinator: "Jayasagar (7483013936)"
     },
     {
       id: 12,

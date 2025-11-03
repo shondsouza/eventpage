@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { InteractiveHoverButton } from './ui/InteractiveHoverButton';
 
 interface RegistrationPageProps {
   event: {
@@ -40,7 +41,7 @@ const RegistrationPage = ({ event, onBack }: RegistrationPageProps) => {
         <div className="p-6">
           <button
             onClick={onBack}
-            className="px-6 py-2 bg-blue-400 text-black font-bold rounded-lg hover:bg-blue-300 transition flex items-center gap-2"
+            className="px-6 py-2 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5" />
             BACK
@@ -51,34 +52,33 @@ const RegistrationPage = ({ event, onBack }: RegistrationPageProps) => {
         <div className="max-w-2xl mx-auto px-4 py-12">
           {/* Title */}
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-black text-blue-400 mb-4 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
               EVENT REGISTRATION
             </h1>
-            <p className="text-xl text-blue-400">→ {event.title}</p>
+            <p className="text-xl text-white">→ {event.title}</p>
           </div>
 
           {/* Registration Box */}
-          <div className="border-2 border-blue-400 rounded-2xl p-8 bg-black/50 backdrop-blur-sm">
+          <div className="border-2 border-white rounded-2xl p-8 bg-black/50 backdrop-blur-sm">
             {/* Create Team Section */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-blue-400 mb-2">CREATE A TEAM</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">CREATE A TEAM</h2>
               <p className="text-gray-400 text-sm mb-4">
                 The team leader should create the team first before others can join
               </p>
-              <button
+              <InteractiveHoverButton
+                text="CREATE TEAM"
                 onClick={handleCreateTeam}
-                className="w-full bg-blue-400 text-black font-black py-4 rounded-lg hover:bg-blue-300 transition text-lg"
-              >
-                CREATE TEAM
-              </button>
+                className="bg-black text-white hover:bg-gray-800 border-gray-700 py-4 text-lg"
+              />
             </div>
 
             {/* Divider */}
-            <div className="border-t border-blue-400/30 my-8"></div>
+            <div className="border-t border-gray-700/30 my-8"></div>
 
             {/* Join Team Section */}
             <div>
-              <h2 className="text-2xl font-bold text-blue-400 mb-2">JOIN A TEAM</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">JOIN A TEAM</h2>
               <p className="text-gray-400 text-sm mb-4">
                 Enter your team leader's email to join their team
               </p>
@@ -88,20 +88,19 @@ const RegistrationPage = ({ event, onBack }: RegistrationPageProps) => {
                   value={leaderEmail}
                   onChange={(e) => setLeaderEmail(e.target.value)}
                   placeholder="Enter Leader's Email"
-                  className="flex-1 px-4 py-3 bg-black border border-blue-400/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400"
+                  className="flex-1 px-4 py-3 bg-black border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gray-700"
                 />
-                <button
+                <InteractiveHoverButton
+                  text="JOIN"
                   onClick={handleJoinTeam}
-                  className="px-8 py-3 bg-blue-400 text-black font-black rounded-lg hover:bg-blue-300 transition"
-                >
-                  JOIN
-                </button>
+                  className="bg-black text-white hover:bg-gray-800 border-gray-700 w-auto px-8"
+                />
               </div>
             </div>
 
             {/* Terms */}
             <div className="mt-8 text-center">
-              <p className="text-blue-400 text-sm italic">
+              <p className="text-white text-sm italic">
                 Terms and Conditions applied*
               </p>
             </div>
