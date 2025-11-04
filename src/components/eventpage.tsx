@@ -97,156 +97,6 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
     }
   };
 
-  // Background pattern components for each category
-  const TechnicalBackground = () => (
-    <div className="absolute inset-0 overflow-hidden opacity-5">
-      {/* Circuit board pattern */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        {[...Array(20)].map((_, i) => (
-          <div key={i} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Code className="w-20 h-20 text-white animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-          </div>
-        ))}
-        {[...Array(20)].map((_, i) => (
-          <div key={`db-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Database className="w-16 h-16 text-cyan-400 animate-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
-          </div>
-        ))}
-        {[...Array(15)].map((_, i) => (
-          <div key={`cpu-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Cpu className="w-24 h-24 text-white animate-pulse" style={{ animationDelay: `${i * 0.4}s` }} />
-          </div>
-        ))}
-        {[...Array(15)].map((_, i) => (
-          <div key={`term-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Terminal className="w-18 h-18 text-cyan-500 animate-pulse" style={{ animationDelay: `${i * 0.5}s` }} />
-          </div>
-        ))}
-      </div>
-      {/* Grid lines */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(21, 48, 81, 0.49)" strokeWidth="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-    </div>
-  );
-
-  const CulturalBackground = () => (
-    <div className="absolute inset-0 overflow-hidden opacity-5">
-      {/* Musical notes and instruments */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        {[...Array(25)].map((_, i) => (
-          <div key={i} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Music className="w-20 h-20 text-pink-400 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-          </div>
-        ))}
-        {[...Array(25)].map((_, i) => (
-          <div key={`mic-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Mic className="w-16 h-16 text-purple-400 animate-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
-          </div>
-        ))}
-        {[...Array(20)].map((_, i) => (
-          <div key={`drama-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Drama className="w-24 h-24 text-rose-400 animate-pulse" style={{ animationDelay: `${i * 0.4}s` }} />
-          </div>
-        ))}
-        {[...Array(20)].map((_, i) => (
-          <div key={`users-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Users className="w-18 h-18 text-fuchsia-400 animate-pulse" style={{ animationDelay: `${i * 0.5}s` }} />
-          </div>
-        ))}
-      </div>
-      {/* Wave pattern */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="waves" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M0 50 Q25 25, 50 50 T100 50" fill="none" stroke="rgba(236, 72, 153, 0.3)" strokeWidth="2"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#waves)" />
-      </svg>
-    </div>
-  );
-
-  const SpecialBackground = () => (
-    <div className="absolute inset-0 overflow-hidden opacity-5">
-      {/* Innovation and achievement symbols */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        {[...Array(20)].map((_, i) => (
-          <div key={i} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Sparkles className="w-20 h-20 text-yellow-400 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-          </div>
-        ))}
-        {[...Array(20)].map((_, i) => (
-          <div key={`trophy-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Trophy className="w-16 h-16 text-amber-400 animate-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
-          </div>
-        ))}
-        {[...Array(15)].map((_, i) => (
-          <div key={`bulb-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Lightbulb className="w-24 h-24 text-orange-400 animate-pulse" style={{ animationDelay: `${i * 0.4}s` }} />
-          </div>
-        ))}
-        {[...Array(15)].map((_, i) => (
-          <div key={`rocket-${i}`} className="absolute" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}>
-            <Rocket className="w-18 h-18 text-yellow-500 animate-pulse" style={{ animationDelay: `${i * 0.5}s` }} />
-          </div>
-        ))}
-      </div>
-      {/* Star pattern */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="stars" width="80" height="80" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="2" fill="rgba(251, 191, 36, 0.3)"/>
-            <circle cx="50" cy="30" r="1.5" fill="rgba(251, 191, 36, 0.3)"/>
-            <circle cx="70" cy="60" r="2.5" fill="rgba(251, 191, 36, 0.3)"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#stars)" />
-      </svg>
-    </div>
-  );
-
   const events = [
     {
       id: 1,
@@ -286,7 +136,7 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
       category: "technical",
       tagline: "Blind Coding Challenge",
       description: "Code without seeing your screen! Max 2 participants. Languages: C, Python, Java. Two rounds of intense coding.",
-      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+      image: "/BCimage.jpg",
       date: "TBA",
       time: "TBA",
       organizer: "Ms. Spoorthi B Shetty",
@@ -707,195 +557,206 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {/* Background GIF */}
+      <div 
+        className="fixed inset-0 z-0 opacity-50"
+        style={{ 
+          backgroundImage: "url('/bg.gif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      ></div>
+      
+      {/* Content wrapper to ensure content is above background */}
+      <div className="relative z-10">
 
-      {/* Category Filter */}
-      <div className="bg-gray-900 py-6 px-4 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap gap-4 justify-center">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-2 font-bold rounded-lg transition ${
-                  activeCategory === category.id
-                    ? 'bg-white text-black'
-                    : 'bg-gray-800 text-white hover:bg-gray-700'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Events Grid with Category-Specific Background */}
-      <div className="relative min-h-screen">
-        {activeCategory === 'technical' && <TechnicalBackground />}
-        {activeCategory === 'cultural' && <CulturalBackground />}
-        {activeCategory === 'special' && <SpecialBackground />}
-        
-        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredEvents.map(event => (
-              <div
-                key={event.id}
-                className="bg-gray-900 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-2xl"
-              >
-                <div className="flex flex-col md:flex-row">
-                  {/* Image Section */}
-                  <div className="md:w-2/5 relative overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${event.gradient} opacity-80`}></div>
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-64 md:h-full object-cover mix-blend-overlay"
-                    />
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="md:w-3/5 p-6">
-                    <h3 className="text-2xl font-black mb-2 text-white">
-                      → {event.title}
-                    </h3>
-                    <p className="text-gray-400 italic mb-3">{event.tagline}</p>
-                    <p className="text-gray-300 text-sm mb-4">{event.description}</p>
-
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-2 text-white">
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-semibold">Date:</span>
-                        <span className="text-white">{event.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-white">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">Time:</span>
-                        <span className="text-white">{event.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-white">
-                        <User className="w-4 h-4" />
-                        <span className="font-semibold">Organizer:</span>
-                        <span className="text-white">{event.organizer}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-white">
-                        <Phone className="w-4 h-4" />
-                        <span className="font-semibold">Contact:</span>
-                        <span className="text-white">{event.contact}</span>
-                      </div>
-                    </div>
-
-                    <button 
-                      onClick={() => {
-                        if (cart.some(item => item.id === event.id)) {
-                          removeFromCart(event.id);
-                        } else if (cart.length < 4) {
-                          addToCart(event);
-                        }
-                      }}
-                      disabled={cart.length >= 4 && !cart.some(item => item.id === event.id)}
-                      className={`mt-6 w-full font-black py-3 rounded-lg transition ${
-                        cart.length >= 4 && !cart.some(item => item.id === event.id)
-                          ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                          : cart.some(item => item.id === event.id)
-                            ? "bg-red-500 text-white hover:bg-red-600"
-                            : "bg-white text-black hover:bg-gray-200"
-                      }`}
-                    >
-                      {cart.length >= 4 && !cart.some(item => item.id === event.id)
-                        ? "MAXIMUM EVENTS REACHED" 
-                        : cart.some(item => item.id === event.id) 
-                          ? "REMOVE FROM CART" 
-                          : "ADD TO CART"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-gray-900 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            © 2025 Sambhram Events. All rights reserved.
-          </p>
-        </div>
-      </div>
-
-      {/* Floating Cart Button */}
-      {cart.length > 0 && (
-        <button
-          onClick={() => setShowCart(true)}
-          className="fixed bottom-6 right-6 bg-white text-black p-4 rounded-full shadow-lg hover:bg-gray-200 transition z-50"
-        >
-          <div className="flex items-center">
-            <ShoppingCart className="w-6 h-6" />
-            <span className="ml-2 font-bold">{cart.length}</span>
-          </div>
-        </button>
-      )}
-
-      {/* Cart Modal */}
-      {showCart && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-black text-white">Your Cart</h2>
+        {/* Category Filter */}
+        <div className="bg-gray-900 py-6 px-4 z-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-wrap gap-4 justify-center">
+              {categories.map(category => (
                 <button
-                  onClick={() => setShowCart(false)}
-                  className="text-gray-400 hover:text-white"
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-6 py-2 font-bold rounded-lg transition ${
+                    activeCategory === category.id
+                      ? 'bg-white text-black'
+                      : 'bg-gray-800 text-white hover:bg-gray-700'
+                  }`}
                 >
-                  <X className="w-6 h-6" />
+                  {category.name}
                 </button>
-              </div>
-
-              {cart.length === 0 ? (
-                <p className="text-gray-400 text-center py-8">Your cart is empty</p>
-              ) : (
-                <>
-                  <div className="space-y-4">
-                    {cart.map(item => (
-                      <div key={item.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-                        <div className="flex-1">
-                          <h3 className="font-bold text-white">{item.title}</h3>
-                          <p className="text-gray-400 text-sm">{item.tagline}</p>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-white font-bold">1</span>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="ml-4 text-red-500 hover:text-red-400"
-                          >
-                            <X className="w-5 h-5" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-gray-700">
-                    <div className="flex justify-between items-center mb-6">
-                      <span className="text-xl font-bold text-white">Total for {cart.length} event{cart.length > 1 ? 's' : ''}:</span>
-                      <span className="text-2xl font-black text-white">
-                        ₹{calculateTotal()}
-                      </span>
-                    </div>
-                    <button
-                      onClick={handleProceedToCheckout}
-                      className="w-full bg-white text-black font-black py-4 rounded-lg hover:bg-gray-200 transition"
-                    >
-                      PROCEED TO CHECKOUT
-                    </button>
-                  </div>
-                </>
-              )}
+              ))}
             </div>
           </div>
         </div>
-      )}
+
+        {/* Events Grid with Category-Specific Background */}
+        <div className="relative min-h-screen">
+          {/* Removed category-specific backgrounds to prevent overlay on bg.gif */}
+          
+          <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {filteredEvents.map(event => (
+                <div
+                  key={event.id}
+                  className="bg-transparent rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-white/20"
+                >
+                  <div className="flex flex-col md:flex-row">
+                    {/* Image Section */}
+                    <div className="md:w-2/5 relative overflow-hidden">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-64 md:h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="md:w-3/5 p-6">
+                      <h3 className="text-2xl font-black mb-2 text-white">
+                         {event.title}
+                      </h3>
+                      <p className="text-gray-300 italic mb-3">{event.tagline}</p>
+                      <p className="text-gray-400 text-sm mb-4">{event.description}</p>
+
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center gap-2 text-white">
+                          <Calendar className="w-4 h-4" />
+                          <span className="font-semibold">Date:</span>
+                          <span className="text-white">{event.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-white">
+                          <Clock className="w-4 h-4" />
+                          <span className="font-semibold">Time:</span>
+                          <span className="text-white">{event.time}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-white">
+                          <User className="w-4 h-4" />
+                          <span className="font-semibold">Organizer:</span>
+                          <span className="text-white">{event.organizer}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-white">
+                          <Phone className="w-4 h-4" />
+                          <span className="font-semibold">Contact:</span>
+                          <span className="text-white">{event.contact}</span>
+                        </div>
+                      </div>
+
+                      <button 
+                        onClick={() => {
+                          if (cart.some(item => item.id === event.id)) {
+                            removeFromCart(event.id);
+                          } else if (cart.length < 4) {
+                            addToCart(event);
+                          }
+                        }}
+                        disabled={cart.length >= 4 && !cart.some(item => item.id === event.id)}
+                        className={`mt-6 w-full font-black py-3 rounded-lg transition ${
+                          cart.length >= 4 && !cart.some(item => item.id === event.id)
+                            ? "bg-gray-600/30 text-gray-300 cursor-not-allowed"
+                            : cart.some(item => item.id === event.id)
+                              ? "bg-red-500/60 text-white hover:bg-red-600/70"
+                              : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                        }`}
+                      >
+                        {cart.length >= 4 && !cart.some(item => item.id === event.id)
+                          ? "MAXIMUM EVENTS REACHED" 
+                          : cart.some(item => item.id === event.id) 
+                            ? "REMOVE FROM CART" 
+                            : "ADD TO CART"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="bg-gray-900 py-8 mt-16">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <p className="text-gray-400">
+              © 2025 Sambhram Events. All rights reserved.
+            </p>
+          </div>
+        </div>
+
+        {/* Floating Cart Button */}
+        {cart.length > 0 && (
+          <button
+            onClick={() => setShowCart(true)}
+            className="fixed bottom-6 right-6 bg-white text-black p-4 rounded-full shadow-lg hover:bg-gray-200 transition z-50"
+          >
+            <div className="flex items-center">
+              <ShoppingCart className="w-6 h-6" />
+              <span className="ml-2 font-bold">{cart.length}</span>
+            </div>
+          </button>
+        )}
+
+        {/* Cart Modal */}
+        {showCart && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-black text-white">Your Cart</h2>
+                  <button
+                    onClick={() => setShowCart(false)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                {cart.length === 0 ? (
+                  <p className="text-gray-400 text-center py-8">Your cart is empty</p>
+                ) : (
+                  <>
+                    <div className="space-y-4">
+                      {cart.map(item => (
+                        <div key={item.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
+                          <div className="flex-1">
+                            <h3 className="font-bold text-white">{item.title}</h3>
+                            <p className="text-gray-400 text-sm">{item.tagline}</p>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-white font-bold">1</span>
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              className="ml-4 text-red-500 hover:text-red-400"
+                            >
+                              <X className="w-5 h-5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-gray-700">
+                      <div className="flex justify-between items-center mb-6">
+                        <span className="text-xl font-bold text-white">Total for {cart.length} event{cart.length > 1 ? 's' : ''}:</span>
+                        <span className="text-2xl font-black text-white">
+                          ₹{calculateTotal()}
+                        </span>
+                      </div>
+                      <button
+                        onClick={handleProceedToCheckout}
+                        className="w-full bg-white text-black font-black py-4 rounded-lg hover:bg-gray-200 transition"
+                      >
+                        PROCEED TO CHECKOUT
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

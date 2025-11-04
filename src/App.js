@@ -22,12 +22,14 @@ function App() {
   };
 
   if (currentPage === 'checkout') {
-    // Calculate total amount for the checkout page
-    const totalAmount = cart.reduce((total, item) => {
-      if (item.amount === "TBA") return total;
-      const amount = parseFloat(item.amount.replace('₹', '').replace(',', '')) || 0;
-      return total + amount;
-    }, 0);
+    // Calculate total amount for the checkout page using tiered pricing
+    const eventCount = cart.length;
+    let totalAmount = 0;
+    
+    if (eventCount === 1) totalAmount = 100;
+    else if (eventCount === 2) totalAmount = 160;
+    else if (eventCount === 3) totalAmount = 210;
+    else if (eventCount >= 4) totalAmount = 250;
 
     return (
       <CheckoutPage

@@ -91,15 +91,7 @@ const CheckoutPage = ({ cart, totalAmount, onBack, onCheckoutComplete }: Checkou
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-white">Total for {cart.length} event{cart.length > 1 ? 's' : ''}:</span>
                   <span className="text-2xl font-black text-white">
-                    ₹{(() => {
-                      const eventCount = cart.length;
-                      if (eventCount === 0) return 0;
-                      if (eventCount === 1) return 100;
-                      if (eventCount === 2) return 160;
-                      if (eventCount === 3) return 210;
-                      if (eventCount >= 4) return 250;
-                      return 0;
-                    })()}
+                    ₹{totalAmount}
                   </span>
                 </div>
               </div>
