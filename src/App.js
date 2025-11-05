@@ -7,9 +7,12 @@ import { CheckCircle } from 'lucide-react';
 function App() {
   const [currentPage, setCurrentPage] = useState('events'); // events, checkout, success
   const [cart, setCart] = useState([]);
+  const [teamData, setTeamData] = useState({}); // Store team data for cart items
 
   const handleCheckoutComplete = () => {
     setCurrentPage('success');
+    // Clear team data after successful checkout
+    setTeamData({});
   };
 
   const handleBackToEvents = () => {
@@ -35,6 +38,7 @@ function App() {
       <CheckoutPage
         cart={cart}
         totalAmount={totalAmount}
+        teamData={teamData}
         onBack={handleBackToEvents}
         onCheckoutComplete={handleCheckoutComplete}
       />
@@ -66,6 +70,8 @@ function App() {
   return (
     <EventRegistrationPage
       onProceedToCheckout={handleProceedToCheckout}
+      teamData={teamData}
+      setTeamData={setTeamData}
     />
   );
 }

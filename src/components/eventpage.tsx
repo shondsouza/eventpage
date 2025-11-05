@@ -16,22 +16,44 @@ interface Event {
   teamSize: string;
   gradient: string;
   studentCoordinator?: string;
+  isTeamEvent?: boolean; // New property to identify team events
 }
 
 interface CartItem extends Event {
   quantity: number;
 }
 
-interface EventRegistrationPageProps {
-  onProceedToCheckout?: (cartItems: CartItem[], totalAmount: number) => void;
+interface TeamData {
+  teamName: string;
+  members: any[];
 }
 
-const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPageProps) => {
+interface EventRegistrationPageProps {
+  onProceedToCheckout?: (cartItems: CartItem[], totalAmount: number) => void;
+  teamData?: Record<number, TeamData>;
+  setTeamData?: (data: Record<number, TeamData>) => void;
+}
+
+const EventRegistrationPage = ({ 
+  onProceedToCheckout, 
+  teamData,
+  setTeamData
+}: EventRegistrationPageProps) => {
   const [activeCategory, setActiveCategory] = useState('technical');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  const [selectedTeamEvent, setSelectedTeamEvent] = useState<CartItem | null>(null);
+
+  // Function to update team data for an event
+  const updateTeamData = (eventId: number, data: TeamData) => {
+    if (setTeamData) {
+      const newData = { ...(teamData || {}), [eventId]: data };
+      setTeamData(newData);
+    }
+  };
 
   const handleRegister = (event: Event) => {
     setSelectedEvent(event);
@@ -51,6 +73,8 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
 
   // Add event to cart (only once)
   const addToCart = (event: Event) => {
+    // For team events, we no longer redirect immediately
+    // Just add the event to cart like any other event
     setCart(prevCart => {
       // Check if event already exists in cart
       const existingItem = prevCart.find(item => item.id === event.id);
@@ -567,9 +591,27 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
       organizer: "TBA",
       contact: "TBA",
       amount: "₹100",
-      teamSize: "individual",
-      gradient: "from-teal-500 to-green-600"
+      teamSize: "team",
+      gradient: "from-teal-500 to-green-600",
+      isTeamEvent: true // Marking this as a team event
     }
+    // Example of how to add a new team event:
+    // {
+    //   id: 30,
+    //   title: "New Team Event",
+    //   category: "technical", // or "cultural" or "special"
+    //   tagline: "Exciting team challenge",
+    //   description: "Description of your team event goes here.",
+    //   image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+    //   date: "TBA",
+    //   time: "TBA",
+    //   organizer: "Organizer Name",
+    //   contact: "+91 9876543210",
+    //   amount: "₹100",
+    //   teamSize: "team",
+    //   gradient: "from-blue-500 to-cyan-600",
+    //   isTeamEvent: true // This property triggers the team registration flow
+    // }
   ];
 
   const categories = [
@@ -760,12 +802,30 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
                           <div className="flex-1">
                             <h3 className="font-bold text-white">{item.title}</h3>
                             <p className="text-gray-400 text-sm">{item.tagline}</p>
+                            {/* Show team info if team data exists */}
+                            {teamData && teamData[item.id] && (
+                              <p className="text-gray-300 text-xs mt-1">
+                                Team: {teamData[item.id].teamName} ({teamData[item.id].members.length} members)
+                              </p>
+                            )}
                           </div>
                           <div className="flex items-center space-x-2">
                             <span className="text-white font-bold">1</span>
+                            {/* Add team members button for team events */}
+                            {(item.teamSize === 'team' || item.isTeamEvent) && (
+                              <button
+                                onClick={() => {
+                                  setSelectedTeamEvent(item);
+                                  setShowTeamModal(true);
+                                }}
+                                className="ml-2 px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                              >
+                                {(teamData && teamData[item.id]) ? 'Edit Team' : 'Add Team'}
+                              </button>
+                            )}
                             <button
                               onClick={() => removeFromCart(item.id)}
-                              className="ml-4 text-red-500 hover:text-red-400"
+                              className="ml-2 text-red-500 hover:text-red-400"
                             >
                               <X className="w-5 h-5" />
                             </button>
@@ -794,8 +854,232 @@ const EventRegistrationPage = ({ onProceedToCheckout }: EventRegistrationPagePro
             </div>
           </div>
         )}
+
+        {/* Team Member Modal */}
+        {showTeamModal && selectedTeamEvent && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-black text-white">Team Details for {selectedTeamEvent.title}</h2>
+                  <button
+                    onClick={() => setShowTeamModal(false)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                
+                <TeamMemberForm 
+                  event={selectedTeamEvent}
+                  initialData={(teamData && selectedTeamEvent) ? teamData[selectedTeamEvent.id] : undefined}
+                  onSave={(data) => {
+                    updateTeamData(selectedTeamEvent.id, data);
+                    setShowTeamModal(false);
+                  }}
+                  onCancel={() => setShowTeamModal(false)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
+  );
+};
+
+// Team Member Form Component
+interface TeamMemberFormProps {
+  event: CartItem;
+  initialData?: TeamData;
+  onSave: (data: TeamData) => void;
+  onCancel: () => void;
+}
+
+const TeamMemberForm = ({ event, initialData, onSave, onCancel }: TeamMemberFormProps) => {
+  const [teamName, setTeamName] = useState(initialData?.teamName || '');
+  const [teamMembers, setTeamMembers] = useState<any[]>(initialData?.members || [
+    { name: '', email: '', phone: '', college: '' }
+  ]);
+
+  const handleMemberChange = (index: number, field: string, value: string) => {
+    const updatedMembers = [...teamMembers];
+    updatedMembers[index] = { ...updatedMembers[index], [field]: value };
+    setTeamMembers(updatedMembers);
+  };
+
+  const addMember = () => {
+    // Determine max team size from event.teamSize (e.g., "2-4 members" or "team")
+    let maxMembers = 4;
+    if (event.teamSize.includes('-')) {
+      const parts = event.teamSize.split('-');
+      maxMembers = parseInt(parts[1]) || 4;
+    } else if (event.teamSize === 'team') {
+      maxMembers = 4; // Default for generic "team"
+    }
+    
+    if (teamMembers.length < maxMembers) {
+      setTeamMembers([...teamMembers, { name: '', email: '', phone: '', college: '' }]);
+    }
+  };
+
+  const removeMember = (index: number) => {
+    if (teamMembers.length > 1) {
+      const updatedMembers = teamMembers.filter((_, i) => i !== index);
+      setTeamMembers(updatedMembers);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    for (let i = 0; i < teamMembers.length; i++) {
+      const member = teamMembers[i];
+      if (!member.name || !member.email || !member.phone || !member.college) {
+        alert(`Please fill all fields for member ${i + 1}`);
+        return;
+      }
+    }
+    
+    if (!teamName) {
+      alert('Please enter a team name');
+      return;
+    }
+    
+    onSave({ teamName, members: teamMembers });
+  };
+
+  // Determine max team size for display
+  let teamSizeText = event.teamSize;
+  if (event.teamSize === 'team') {
+    teamSizeText = '2-4 members';
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Team Name */}
+      <div>
+        <label className="block text-sm font-bold text-white mb-2">
+          Team Name *
+        </label>
+        <input
+          type="text"
+          value={teamName}
+          onChange={(e) => setTeamName(e.target.value)}
+          placeholder="Enter your team name"
+          className="w-full px-4 py-3 bg-black border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gray-700"
+          required
+        />
+      </div>
+
+      {/* Team Members */}
+      <div>
+        <h3 className="text-lg font-bold text-white mb-4">Team Members</h3>
+        
+        <div className="space-y-4">
+          {teamMembers.map((member, index) => (
+            <div key={index} className="border border-gray-700/50 rounded-lg p-4 bg-black/30">
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-md font-bold text-white">
+                  Member {index + 1}
+                </h4>
+                {teamMembers.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeMember(index)}
+                    className="text-red-500 hover:text-red-400 text-sm"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">Full Name *</label>
+                  <input
+                    type="text"
+                    value={member.name}
+                    onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
+                    placeholder="Full name"
+                    className="w-full px-3 py-2 bg-black border border-gray-700/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-gray-700 text-sm"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">Email *</label>
+                  <input
+                    type="email"
+                    value={member.email}
+                    onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
+                    placeholder="Email address"
+                    className="w-full px-3 py-2 bg-black border border-gray-700/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-gray-700 text-sm"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">Phone *</label>
+                  <input
+                    type="tel"
+                    value={member.phone}
+                    onChange={(e) => handleMemberChange(index, 'phone', e.target.value)}
+                    placeholder="Phone number"
+                    className="w-full px-3 py-2 bg-black border border-gray-700/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-gray-700 text-sm"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">College *</label>
+                  <input
+                    type="text"
+                    value={member.college}
+                    onChange={(e) => handleMemberChange(index, 'college', e.target.value)}
+                    placeholder="College name"
+                    className="w-full px-3 py-2 bg-black border border-gray-700/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-gray-700 text-sm"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Add Member Button */}
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={addMember}
+            className="px-3 py-1 bg-gray-800 text-white rounded text-sm hover:bg-gray-700 transition"
+          >
+            + Add Member
+          </button>
+          <p className="text-gray-500 text-xs mt-1">
+            Maximum {teamSizeText}
+          </p>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex justify-end space-x-3 pt-4">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition"
+        >
+          Save Team Details
+        </button>
+      </div>
+    </form>
   );
 };
 

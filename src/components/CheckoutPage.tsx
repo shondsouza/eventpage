@@ -1,9 +1,22 @@
 import React from 'react';
 import { ArrowLeft, CreditCard } from 'lucide-react';
 
+interface TeamMember {
+  name: string;
+  email: string;
+  phone: string;
+  college: string;
+}
+
+interface TeamData {
+  teamName: string;
+  members: TeamMember[];
+}
+
 interface CheckoutPageProps {
   cart: any[];
   totalAmount: number;
+  teamData?: Record<number, TeamData>;
   onBack: () => void;
   onCheckoutComplete: () => void;
 }
@@ -11,6 +24,7 @@ interface CheckoutPageProps {
 const CheckoutPage: React.FC<CheckoutPageProps> = ({ 
   cart, 
   totalAmount, 
+  teamData,
   onBack, 
   onCheckoutComplete 
 }) => {
@@ -34,7 +48,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
             <div className="bg-gray-900 rounded-lg p-4">
               {cart.map((item, index) => (
                 <div key={index} className="flex justify-between py-2 border-b border-gray-700">
-                  <span>{item.name || 'Event'}</span>
+                  <span>{item.name || item.title || 'Event'}</span>
                   <span>₹100</span>
                 </div>
               ))}
@@ -43,6 +57,37 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                 <span>₹{totalAmount}</span>
               </div>
             </div>
+            
+            {/* Team Registration Data */}
+            {teamData && Object.keys(teamData).length > 0 && (
+              <div className="mt-6 bg-gray-900 rounded-lg p-4">
+                <h3 className="text-xl font-bold mb-4">Team Details</h3>
+                <div className="space-y-4">
+                  {Object.entries(teamData).map(([eventId, teamInfo]) => {
+                    const event = cart.find(item => item.id === parseInt(eventId));
+                    return event ? (
+                      <div key={eventId} className="border-b border-gray-700 pb-3 last:border-0 last:pb-0">
+                        <h4 className="font-bold text-white">{event.title}</h4>
+                        <p className="text-gray-300 text-sm">
+                          <span className="font-semibold">Team:</span> {teamInfo.teamName}
+                        </p>
+                        <p className="text-gray-300 text-sm">
+                          <span className="font-semibold">Members:</span> {teamInfo.members.length}
+                        </p>
+                        <div className="mt-2">
+                          <h5 className="font-semibold text-gray-400 text-xs">Member Details:</h5>
+                          {teamInfo.members.map((member, index) => (
+                            <div key={index} className="text-xs text-gray-400 ml-2">
+                              <p>{index + 1}. {member.name} ({member.email})</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </div>
+            )}
           </div>
           
           {/* Payment Form */}
