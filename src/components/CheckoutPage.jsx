@@ -1,27 +1,7 @@
 import React from 'react';
 import { ArrowLeft, CreditCard } from 'lucide-react';
 
-interface TeamMember {
-  name: string;
-  email: string;
-  phone: string;
-  college: string;
-}
-
-interface TeamData {
-  teamName: string;
-  members: TeamMember[];
-}
-
-interface CheckoutPageProps {
-  cart: any[];
-  totalAmount: number;
-  teamData?: Record<number, TeamData>;
-  onBack: () => void;
-  onCheckoutComplete: () => void;
-}
-
-const CheckoutPage: React.FC<CheckoutPageProps> = ({ 
+const CheckoutPage = ({ 
   cart, 
   totalAmount, 
   teamData,

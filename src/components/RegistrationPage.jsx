@@ -2,19 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { InteractiveHoverButton } from './ui/InteractiveHoverButton';
 
-interface RegistrationPageProps {
-  event: {
-    id: number;
-    title: string;
-    teamSize: string;
-    amount: string;
-    date: string;
-    time: string;
-  };
-  onBack: () => void;
-}
-
-const RegistrationPage = ({ event, onBack }: RegistrationPageProps) => {
+const RegistrationPage = ({ event, onBack }) => {
   const [leaderEmail, setLeaderEmail] = useState('');
 
   const handleCreateTeam = () => {
