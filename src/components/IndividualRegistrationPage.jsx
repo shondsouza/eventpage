@@ -2,18 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, User, Mail, Phone, Building2 } from 'lucide-react';
 import { InteractiveHoverButton } from './ui/InteractiveHoverButton';
 
-interface IndividualRegistrationPageProps {
-  event: {
-    id: number;
-    title: string;
-    amount: string;
-    date: string;
-    time: string;
-  };
-  onBack: () => void;
-}
-
-const IndividualRegistrationPage = ({ event, onBack }: IndividualRegistrationPageProps) => {
+const IndividualRegistrationPage = ({ event, onBack }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,7 +10,7 @@ const IndividualRegistrationPage = ({ event, onBack }: IndividualRegistrationPag
     college: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -29,7 +18,7 @@ const IndividualRegistrationPage = ({ event, onBack }: IndividualRegistrationPag
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: Integrate with Supabase to save registration
     alert(`Registration successful!

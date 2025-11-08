@@ -2,33 +2,13 @@ import React, { useState } from 'react';
 import { ArrowLeft, User, Mail, Phone, Building2, Users } from 'lucide-react';
 import { InteractiveHoverButton } from './ui/InteractiveHoverButton';
 
-interface TeamMember {
-  name: string;
-  email: string;
-  phone: string;
-  college: string;
-}
-
-interface TeamRegistrationPageProps {
-  event: {
-    id: number;
-    title: string;
-    amount: string;
-    date: string;
-    time: string;
-    teamSize: string;
-  };
-  onBack: () => void;
-  onComplete: (teamData: { teamName: string; members: TeamMember[] }) => void;
-}
-
-const TeamRegistrationPage = ({ event, onBack, onComplete }: TeamRegistrationPageProps) => {
+const TeamRegistrationPage = ({ event, onBack, onComplete }) => {
   const [teamName, setTeamName] = useState('');
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
+  const [teamMembers, setTeamMembers] = useState([
     { name: '', email: '', phone: '', college: '' } // Leader is the first member
   ]);
 
-  const handleMemberChange = (index: number, field: keyof TeamMember, value: string) => {
+  const handleMemberChange = (index, field, value) => {
     const updatedMembers = [...teamMembers];
     updatedMembers[index] = { ...updatedMembers[index], [field]: value };
     setTeamMembers(updatedMembers);
@@ -47,7 +27,7 @@ const TeamRegistrationPage = ({ event, onBack, onComplete }: TeamRegistrationPag
     }
   };
 
-  const removeMember = (index: number) => {
+  const removeMember = (index) => {
     // Don't remove the team leader (first member)
     if (index > 0 && teamMembers.length > 1) {
       const updatedMembers = teamMembers.filter((_, i) => i !== index);
@@ -55,7 +35,7 @@ const TeamRegistrationPage = ({ event, onBack, onComplete }: TeamRegistrationPag
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     // Validate required fields

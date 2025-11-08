@@ -1,61 +1,59 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, DollarSign, Code, Database, Cpu, Terminal, Music, Mic, Drama, Users, Sparkles, Trophy, Lightbulb, Rocket, ShoppingCart, X } from 'lucide-react';
 
-interface Event {
-  id: number;
-  title: string;
-  category: string;
-  tagline: string;
-  description: string;
-  image: string;
-  date: string;
-  time: string;
-  organizer: string;
-  contact: string;
-  amount: string;
-  teamSize: string;
-  gradient: string;
-  studentCoordinator?: string;
-  isTeamEvent?: boolean; // New property to identify team events
-}
+// Event object structure:
+// id: number
+// title: string
+// category: string
+// tagline: string
+// description: string
+// image: string
+// date: string
+// time: string
+// organizer: string
+// contact: string
+// amount: string
+// teamSize: string
+// gradient: string
+// studentCoordinator: string (optional)
+// isTeamEvent: boolean (optional)
 
-interface CartItem extends Event {
-  quantity: number;
-}
+// CartItem object structure (extends Event):
+// quantity: number
 
-interface TeamData {
-  teamName: string;
-  members: any[];
-}
+// TeamData object structure:
+// teamName: string
+// members: array
 
-interface EventRegistrationPageProps {
-  onProceedToCheckout?: (cartItems: CartItem[], totalAmount: number) => void;
-  teamData?: Record<number, TeamData>;
-  setTeamData?: (data: Record<number, TeamData>) => void;
-}
+// EventRegistrationPageProps object structure:
+// onProceedToCheckout: function (optional)
+// teamData: object (optional)
+// setTeamData: function (optional)
+// onCategoryChange: function (optional)
 
 const EventRegistrationPage = ({ 
   onProceedToCheckout, 
   teamData,
-  setTeamData
-}: EventRegistrationPageProps) => {
+  setTeamData,
+  onCategoryChange
+}) => {
   const [activeCategory, setActiveCategory] = useState('technical');
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
+  const [flippedCards, setFlippedCards] = useState({});
   const [showTeamModal, setShowTeamModal] = useState(false);
-  const [selectedTeamEvent, setSelectedTeamEvent] = useState<CartItem | null>(null);
+  const [selectedTeamEvent, setSelectedTeamEvent] = useState(null);
 
   // Function to update team data for an event
-  const updateTeamData = (eventId: number, data: TeamData) => {
+  const updateTeamData = (eventId, data) => {
     if (setTeamData) {
       const newData = { ...(teamData || {}), [eventId]: data };
       setTeamData(newData);
     }
   };
 
-  const handleRegister = (event: Event) => {
+  const handleRegister = (event) => {
     setSelectedEvent(event);
   };
 
@@ -64,7 +62,7 @@ const EventRegistrationPage = ({
   };
 
   // Handle card flip
-  const handleCardFlip = (eventId: number) => {
+  const handleCardFlip = (eventId) => {
     setFlippedCards(prev => ({
       ...prev,
       [eventId]: !prev[eventId]
@@ -72,7 +70,7 @@ const EventRegistrationPage = ({
   };
 
   // Add event to cart (only once)
-  const addToCart = (event: Event) => {
+  const addToCart = (event) => {
     // For team events, we no longer redirect immediately
     // Just add the event to cart like any other event
     setCart(prevCart => {
@@ -89,12 +87,12 @@ const EventRegistrationPage = ({
   };
 
   // Remove event from cart
-  const removeFromCart = (eventId: number) => {
+  const removeFromCart = (eventId) => {
     setCart(prevCart => prevCart.filter(item => item.id !== eventId));
   };
 
   // Update quantity in cart
-  const updateQuantity = (eventId: number, quantity: number) => {
+  const updateQuantity = (eventId, quantity) => {
     if (quantity < 1) {
       removeFromCart(eventId);
       return;
@@ -128,6 +126,19 @@ const EventRegistrationPage = ({
       // Default behavior if no callback is provided
       alert(`Proceeding to checkout. Total amount: ₹${calculateTotal()}`);
     }
+  };
+
+  // Handle category change with transition
+  const handleCategoryChange = (categoryId) => {
+    // Call the parent's onCategoryChange if provided
+    if (onCategoryChange) {
+      onCategoryChange(categoryId);
+    }
+    // Set a delay to allow transition to complete halfway before changing category
+    // The transition takes 1500ms to close, so we switch page at that point
+    setTimeout(() => {
+      setActiveCategory(categoryId);
+    }, 1500);
   };
 
   const events = [
@@ -645,7 +656,7 @@ const EventRegistrationPage = ({
               {categories.map(category => (
                 <button
                   key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
+                  onClick={() => handleCategoryChange(category.id)}
                   className={`px-6 py-2 font-bold rounded-lg transition ${
                     activeCategory === category.id
                       ? 'bg-white text-black'
@@ -889,20 +900,19 @@ const EventRegistrationPage = ({
 };
 
 // Team Member Form Component
-interface TeamMemberFormProps {
-  event: CartItem;
-  initialData?: TeamData;
-  onSave: (data: TeamData) => void;
-  onCancel: () => void;
-}
+// TeamMemberFormProps object structure:
+// event: CartItem
+// initialData: TeamData (optional)
+// onSave: function
+// onCancel: function
 
-const TeamMemberForm = ({ event, initialData, onSave, onCancel }: TeamMemberFormProps) => {
+const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
   const [teamName, setTeamName] = useState(initialData?.teamName || '');
-  const [teamMembers, setTeamMembers] = useState<any[]>(initialData?.members || [
+  const [teamMembers, setTeamMembers] = useState(initialData?.members || [
     { name: '', email: '', phone: '', college: '' }
   ]);
 
-  const handleMemberChange = (index: number, field: string, value: string) => {
+  const handleMemberChange = (index, field, value) => {
     const updatedMembers = [...teamMembers];
     updatedMembers[index] = { ...updatedMembers[index], [field]: value };
     setTeamMembers(updatedMembers);
@@ -923,14 +933,14 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }: TeamMemberForm
     }
   };
 
-  const removeMember = (index: number) => {
+  const removeMember = (index) => {
     if (teamMembers.length > 1) {
       const updatedMembers = teamMembers.filter((_, i) => i !== index);
       setTeamMembers(updatedMembers);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     // Validate required fields
