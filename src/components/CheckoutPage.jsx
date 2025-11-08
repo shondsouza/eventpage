@@ -21,20 +21,56 @@ const CheckoutPage = ({
         
         <h1 className="text-3xl font-bold mb-6">Checkout</h1>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="max-w-2xl mx-auto">
           {/* Order Summary */}
           <div>
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <div className="bg-gray-900 rounded-lg p-4">
-              {cart.map((item, index) => (
-                <div key={index} className="flex justify-between py-2 border-b border-gray-700">
-                  <span>{item.name || item.title || 'Event'}</span>
-                  <span>₹100</span>
+              <div className="text-center py-4 border-b border-gray-700">
+                <div className="font-bold text-lg mb-2">Tiered Pricing Model</div>
+                <div className="text-sm text-gray-300">
+                  Pricing based on total number of events
                 </div>
-              ))}
-              <div className="flex justify-between py-2 mt-4 font-bold">
-                <span>Total:</span>
-                <span>₹{totalAmount}</span>
+              </div>
+              
+              <div className="py-3 border-b border-gray-700">
+                <div className="flex justify-between">
+                  <span>1 Event :</span>
+                  <span>₹ 150</span>
+                </div>
+              </div>
+              
+              <div className="py-3 border-b border-gray-700">
+                <div className="flex justify-between">
+                  <span>2 Events :</span>
+                  <span>₹ 200</span>
+                </div>
+              </div>
+              
+              <div className="py-3 border-b border-gray-700">
+                <div className="flex justify-between">
+                  <span>3 Events :</span>
+                  <span>₹ 250</span>
+                </div>
+              </div>
+              
+              <div className="py-3 border-b border-gray-700">
+                <div className="flex justify-between">
+                  <span>4 Events :</span>
+                  <span>₹ 300</span>
+                </div>
+              </div>
+              
+              <div className="py-3 border-b border-gray-700 mb-4">
+                <div className="flex justify-between">
+                  <span>5+ Events :</span>
+                  <span>₹ 300 + ₹ 100 each</span>
+                </div>
+              </div>
+              
+              <div className="flex justify-between py-3 font-bold text-lg">
+                <span>Total ({cart.length} event{cart.length !== 1 ? 's'   : ''}) :</span>
+                <span>₹ {totalAmount}</span>
               </div>
             </div>
             
@@ -49,13 +85,13 @@ const CheckoutPage = ({
                       <div key={eventId} className="border-b border-gray-700 pb-3 last:border-0 last:pb-0">
                         <h4 className="font-bold text-white">{event.title}</h4>
                         <p className="text-gray-300 text-sm">
-                          <span className="font-semibold">Team:</span> {teamInfo.teamName}
+                          <span className="font-semibold">Team :</span> {teamInfo.teamName}
                         </p>
                         <p className="text-gray-300 text-sm">
-                          <span className="font-semibold">Members:</span> {teamInfo.members.length}
+                          <span className="font-semibold">Members :</span> {teamInfo.members.length}
                         </p>
                         <div className="mt-2">
-                          <h5 className="font-semibold text-gray-400 text-xs">Member Details:</h5>
+                          <h5 className="font-semibold text-gray-400 text-xs">Member Details :</h5>
                           {teamInfo.members.map((member, index) => (
                             <div key={index} className="text-xs text-gray-400 ml-2">
                               <p>{index + 1}. {member.name} ({member.email})</p>
@@ -70,47 +106,16 @@ const CheckoutPage = ({
             )}
           </div>
           
-          {/* Payment Form */}
-          <div>
-            <h2 className="text-xl font-bold mb-4">Payment Details</h2>
+          {/* Razorpay Payment Button */}
+          <div className="mt-8">
             <div className="bg-gray-900 rounded-lg p-4">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Card Number</label>
-                  <input 
-                    type="text" 
-                    placeholder="1234 5678 9012 3456" 
-                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-white"
-                  />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Expiry Date</label>
-                    <input 
-                      type="text" 
-                      placeholder="MM/YY" 
-                      className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">CVV</label>
-                    <input 
-                      type="text" 
-                      placeholder="123" 
-                      className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                  </div>
-                </div>
-                
-                <button
-                  onClick={onCheckoutComplete}
-                  className="w-full bg-white text-black font-bold py-3 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <CreditCard className="mr-2" />
-                  PAY ₹{totalAmount}
-                </button>
-              </div>
+              <button
+                onClick={onCheckoutComplete}
+                className="w-full bg-white text-black font-bold py-3 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors"
+              >
+                <CreditCard className="mr-2" />
+                PROCEED TO PAYMENT ₹ {totalAmount}
+              </button>
             </div>
           </div>
         </div>

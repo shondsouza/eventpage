@@ -7,8 +7,16 @@ import PageTransition from './components/transitions/PageTransition';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('events'); // events, checkout, success
-  const [cart, setCart] = useState([]);
-  const [teamData, setTeamData] = useState({}); // Store team data for cart items
+  const [cart, setCart] = useState(() => {
+    // Load cart data from localStorage on initial load
+    const savedCart = localStorage.getItem('eventRegistrationCart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+  const [teamData, setTeamData] = useState(() => {
+    // Load team data from localStorage on initial load
+    const savedTeamData = localStorage.getItem('eventRegistrationTeamData');
+    return savedTeamData ? JSON.parse(savedTeamData) : {};
+  }); // Store team data for cart items
   const [transitionPhase, setTransitionPhase] = useState('idle'); // idle, closing, waiting, opening
 
   const handleCheckoutComplete = () => {
@@ -16,7 +24,8 @@ function App() {
     setTimeout(() => {
       setCurrentPage('success');
       setTransitionPhase('opening');
-      // Clear team data after successful checkout
+      // Clear cart and team data after successful checkout
+      setCart([]);
       setTeamData({});
     }, 1500); // Increased from 700 to 1500 to match the closing animation duration + delay
   };
@@ -48,6 +57,16 @@ function App() {
     }
   }, [transitionPhase]);
 
+  // Save cart data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('eventRegistrationCart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Save team data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('eventRegistrationTeamData', JSON.stringify(teamData));
+  }, [teamData]);
+
   return (
     <>
       <PageTransition phase={transitionPhase} />
@@ -58,10 +77,12 @@ function App() {
           const eventCount = cart.length;
           let totalAmount = 0;
           
-          if (eventCount === 1) totalAmount = 100;
-          else if (eventCount === 2) totalAmount = 160;
-          else if (eventCount === 3) totalAmount = 210;
-          else if (eventCount >= 4) totalAmount = 250;
+          if (eventCount === 0) totalAmount = 0;
+          else if (eventCount === 1) totalAmount = 150;
+          else if (eventCount === 2) totalAmount = 200;
+          else if (eventCount === 3) totalAmount = 250;
+          else if (eventCount === 4) totalAmount = 300;
+          else totalAmount = 300 + (eventCount - 4) * 100;
 
           return (
             <CheckoutPage
@@ -93,6 +114,8 @@ function App() {
         </div>
       ) : (
         <EventRegistrationPage
+          cart={cart}
+          setCart={setCart}
           onProceedToCheckout={handleProceedToCheckout}
           teamData={teamData}
           setTeamData={setTeamData}

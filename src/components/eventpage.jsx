@@ -32,6 +32,8 @@ import { Calendar, Clock, User, Phone, DollarSign, Code, Database, Cpu, Terminal
 // onCategoryChange: function (optional)
 
 const EventRegistrationPage = ({ 
+  cart,
+  setCart,
   onProceedToCheckout, 
   teamData,
   setTeamData,
@@ -39,7 +41,6 @@ const EventRegistrationPage = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState('technical');
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [flippedCards, setFlippedCards] = useState({});
   const [showTeamModal, setShowTeamModal] = useState(false);
@@ -61,12 +62,15 @@ const EventRegistrationPage = ({
     setSelectedEvent(null);
   };
 
-  // Handle card flip
+  // Handle card flip - only one card can be open at a time
   const handleCardFlip = (eventId) => {
-    setFlippedCards(prev => ({
-      ...prev,
-      [eventId]: !prev[eventId]
-    }));
+    // If the clicked card is already open, close it
+    if (flippedCards[eventId]) {
+      setFlippedCards({});
+    } else {
+      // Close all cards and open only the clicked card
+      setFlippedCards({ [eventId]: true });
+    }
   };
 
   // Add event to cart (only once)
@@ -110,12 +114,12 @@ const EventRegistrationPage = ({
     const eventCount = cart.length;
     
     if (eventCount === 0) return 0;
-    if (eventCount === 1) return 100;
-    if (eventCount === 2) return 160;
-    if (eventCount === 3) return 210;
-    if (eventCount >= 4) return 250;
-    
-    return 0;
+    if (eventCount === 1) return 150;
+    if (eventCount === 2) return 200;
+    if (eventCount === 3) return 250;
+    if (eventCount === 4) return 300;
+    // For more than 4 events, first 4 cost 300rs and each additional event costs 100rs
+    return 300 + (eventCount - 4) * 100;
   };
 
   // Proceed to checkout
@@ -153,7 +157,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Saakshi J Shetty",
       contact: "+91 9606469357",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-purple-500 to-pink-600",
       studentCoordinator: "Mr. Lohith Gowda (9019844009)"
@@ -169,7 +173,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Mr. Thejash",
       contact: "+91 8075773051",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-blue-500 to-cyan-600",
       studentCoordinator: "Ms. Sinchana P S (7483081046)"
@@ -185,7 +189,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Spoorthi B Shetty",
       contact: "+91 9482906943",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-indigo-500 to-purple-600",
       studentCoordinator: "Ms. Bandhavya K S (8904827379)"
@@ -201,7 +205,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Deepthi",
       contact: "+91 9880501735",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-green-500 to-emerald-600",
       studentCoordinator: "Mr. Santosh M (9611535134)"
@@ -217,7 +221,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Ankitha Shetty",
       contact: "+91 8310866320",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-orange-500 to-red-600",
       studentCoordinator: "Ms. S B Poorvi (9353181551)"
@@ -233,7 +237,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Mrs. Latha S",
       contact: "+91 9611095629",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-red-500 to-pink-600",
       studentCoordinator: "Ms. Preethishree S D (8618010509)"
@@ -249,7 +253,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Meenakshi",
       contact: "+91 8088994353",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-teal-500 to-blue-600",
       studentCoordinator: "Mr. Karthik A T (9353493357)"
@@ -265,7 +269,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Ms. Kyathi",
       contact: "+91 8296849083",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-pink-500 to-rose-600",
       studentCoordinator: "Janhavi Rathod (7208773651)"
@@ -281,7 +285,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Mr. Savan Shetty",
       contact: "+91 6360841765",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-blue-600 to-indigo-700",
       studentCoordinator: "Nihal S Kolambkar (7204196221)"
@@ -297,7 +301,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Ananya J",
       contact: "+91 9845790058",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-yellow-600 to-orange-700",
       studentCoordinator: "S H Adithya (8073256702)"
@@ -313,7 +317,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Anupama",
       contact: "TBA",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-pink-500 to-purple-600",
       studentCoordinator: "Sowparnika Shetty (9113810849)"
@@ -329,7 +333,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Suryakanth",
       contact: "+91 9980811082",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-green-600 to-emerald-700",
       studentCoordinator: "Chirag Shetty (8792876922)"
@@ -345,7 +349,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Diana D'Souza",
       contact: "+91 7795604890",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-red-500 to-orange-600",
       studentCoordinator: "Charan Reddy (9731596319)"
@@ -361,7 +365,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Pooja",
       contact: "TBA",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-purple-600 to-pink-600",
       studentCoordinator: "Jefin (7510593275)"
@@ -377,7 +381,7 @@ const EventRegistrationPage = ({
       time: "5:30 PM",
       organizer: "Prof. Sheryl Iona",
       contact: "+91 8197201536",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-red-600 to-rose-700",
       studentCoordinator: "Akash singh (8296856531)"
@@ -393,7 +397,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Vignesh",
       contact: "+91 7204273146",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-amber-600 to-yellow-700",
       studentCoordinator: "Ananya rao (8147158229)"
@@ -409,7 +413,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Mohammed Hashim",
       contact: "+91 9061293705",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-orange-600 to-red-700",
       studentCoordinator: "Ganesh (7483896493)"
@@ -425,7 +429,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Suryakanth",
       contact: "+91 9980811082",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-blue-600 to-indigo-700",
       studentCoordinator: "Kishan kumar (7558892264)"
@@ -441,7 +445,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Kyathi",
       contact: "+91 8296849083",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-purple-600 to-pink-700",
       studentCoordinator: "Siri V S (6362184296)"
@@ -457,7 +461,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Spoorthi B Shetty",
       contact: "+91 9482906943",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-rose-500 to-pink-600",
       studentCoordinator: "Akshitha (7975059513)"
@@ -473,7 +477,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Shwetha Rai",
       contact: "+91 7349013217",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-indigo-500 to-purple-600",
       studentCoordinator: "Sushmitha S k (9353249945)"
@@ -489,7 +493,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Thejash",
       contact: "+91 8075773051",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-blue-500 to-cyan-600",
       studentCoordinator: "Chandan Ponnappa (6360162184)"
@@ -505,7 +509,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Ashwini",
       contact: "+91 9743079974",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-teal-500 to-green-600",
       studentCoordinator: "Ananya R (9148136288)"
@@ -521,7 +525,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Prafulla Shetty",
       contact: "+91 7204549248",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-pink-500 to-rose-600",
       studentCoordinator: "Harshitha Banjan (7559457095)"
@@ -537,7 +541,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Deepthi",
       contact: "+91 9880501735",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-gray-600 to-slate-700",
       studentCoordinator: "Joyston (8296839379)"
@@ -553,7 +557,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Roshal Lynshal Nazareth",
       contact: "+91 7899506648",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-orange-500 to-red-600",
       studentCoordinator: "Smruthi sudhakaran (8139885955)"
@@ -569,7 +573,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "Prof. Savan Shetty",
       contact: "+91 6360841765",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-red-500 to-orange-600",
       studentCoordinator: "Jayasagar (7483013936)"
@@ -585,7 +589,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "TBA",
       contact: "TBA",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "individual",
       gradient: "from-teal-500 to-green-600"
     },
@@ -601,7 +605,7 @@ const EventRegistrationPage = ({
       time: "TBA",
       organizer: "TBA",
       contact: "TBA",
-      amount: "₹100",
+      amount: "Varies",
       teamSize: "team",
       gradient: "from-teal-500 to-green-600",
       isTeamEvent: true // Marking this as a team event
@@ -657,7 +661,7 @@ const EventRegistrationPage = ({
                 <button
                   key={category.id}
                   onClick={() => handleCategoryChange(category.id)}
-                  className={`px-6 py-2 font-bold rounded-lg transition ${
+                  className={`px-6 py-2 font-bold rounded-lg transition tracking-wider ${
                     activeCategory === category.id
                       ? 'bg-white text-black'
                       : 'bg-gray-800 text-white hover:bg-gray-700'
@@ -704,32 +708,20 @@ const EventRegistrationPage = ({
                       flippedCards[event.id] ? '' : 'hidden'
                     }`}>
                       <div className="flex-1 overflow-y-auto">
-                        <h3 className="text-xl font-black mb-2 text-white">
+                        <h3 className="text-xl font-black mb-2 text-white tracking-wider">
                           {event.title}
                         </h3>
-                        <p className="text-gray-300 italic mb-3 text-sm">{event.tagline}</p>
-                        <p className="text-gray-400 text-xs mb-4">{event.description}</p>
+                        <p className="text-gray-300 italic mb-3 text-sm tracking-wide">{event.tagline}</p>
+                        <p className="text-gray-400 text-xs mb-4 tracking-wide">{event.description}</p>
 
-                        <div className="space-y-1 text-xs">
+                        <div className="space-y-1 text-xs tracking-wide">
                           <div className="flex items-center gap-2 text-white">
                             <Calendar className="w-3 h-3" />
-                            <span className="font-semibold">Date:</span>
+                            <span className="font-semibold">Date :</span>
                             <span className="text-white">{event.date}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-white">
-                            <Clock className="w-3 h-3" />
-                            <span className="font-semibold">Time:</span>
+                            <Clock className="w-3 h-3 ml-2" />
+                            <span className="font-semibold">Time :</span>
                             <span className="text-white">{event.time}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-white">
-                            <User className="w-3 h-3" />
-                            <span className="font-semibold">Organizer:</span>
-                            <span className="text-white">{event.organizer}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-white">
-                            <Phone className="w-3 h-3" />
-                            <span className="font-semibold">Contact:</span>
-                            <span className="text-white">{event.contact}</span>
                           </div>
                         </div>
                       </div>
@@ -739,24 +731,21 @@ const EventRegistrationPage = ({
                           e.stopPropagation();
                           if (cart.some(item => item.id === event.id)) {
                             removeFromCart(event.id);
-                          } else if (cart.length < 4) {
+                          } else {
                             addToCart(event);
                           }
                         }}
-                        disabled={cart.length >= 4 && !cart.some(item => item.id === event.id)}
                         className={`mt-3 w-full font-black py-2 rounded-lg text-xs transition ${
-                          cart.length >= 4 && !cart.some(item => item.id === event.id)
-                            ? "bg-gray-600/30 text-gray-300 cursor-not-allowed"
-                            : cart.some(item => item.id === event.id)
-                              ? "bg-red-500/60 text-white hover:bg-red-600/70"
-                              : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                          cart.some(item => item.id === event.id)
+                            ? "bg-red-500/60 text-white hover:bg-red-600/70"
+                            : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
                         }`}
                       >
-                        {cart.length >= 4 && !cart.some(item => item.id === event.id)
-                          ? "MAXIMUM EVENTS REACHED" 
-                          : cart.some(item => item.id === event.id) 
-                            ? "REMOVE FROM CART" 
-                            : "ADD TO CART"}
+                        <span className="tracking-wider">
+                        {cart.some(item => item.id === event.id) 
+                          ? "REMOVE FROM CART" 
+                          : "ADD TO CART"}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -769,7 +758,7 @@ const EventRegistrationPage = ({
         {/* Footer */}
         <div className="bg-gray-900 py-8 mt-16">
           <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="text-gray-400">
+            <p className="text-gray-400 tracking-wide">
               © 2025 Sambhram Events. All rights reserved.
             </p>
           </div>
@@ -783,7 +772,7 @@ const EventRegistrationPage = ({
           >
             <div className="flex items-center">
               <ShoppingCart className="w-6 h-6" />
-              <span className="ml-2 font-bold">{cart.length}</span>
+              <span className="ml-2 font-bold tracking-wider">{cart.length}</span>
             </div>
           </button>
         )}
@@ -794,7 +783,7 @@ const EventRegistrationPage = ({
             <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-black text-white">Your Cart</h2>
+                  <h2 className="text-2xl font-black text-white tracking-wider">Your Cart</h2>
                   <button
                     onClick={() => setShowCart(false)}
                     className="text-gray-400 hover:text-white"
@@ -811,12 +800,12 @@ const EventRegistrationPage = ({
                       {cart.map(item => (
                         <div key={item.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
                           <div className="flex-1">
-                            <h3 className="font-bold text-white">{item.title}</h3>
-                            <p className="text-gray-400 text-sm">{item.tagline}</p>
+                            <h3 className="font-bold text-white tracking-wider">{item.title}</h3>
+                            <p className="text-gray-400 text-sm tracking-wide">{item.tagline}</p>
                             {/* Show team info if team data exists */}
                             {teamData && teamData[item.id] && (
-                              <p className="text-gray-300 text-xs mt-1">
-                                Team: {teamData[item.id].teamName} ({teamData[item.id].members.length} members)
+                              <p className="text-gray-300 text-xs mt-1 tracking-wide">
+                                Team : {teamData[item.id].teamName} ({teamData[item.id].members.length} members)
                               </p>
                             )}
                           </div>
@@ -847,16 +836,16 @@ const EventRegistrationPage = ({
 
                     <div className="mt-8 pt-6 border-t border-gray-700">
                       <div className="flex justify-between items-center mb-6">
-                        <span className="text-xl font-bold text-white">Total for {cart.length} event{cart.length > 1 ? 's' : ''}:</span>
-                        <span className="text-2xl font-black text-white">
-                          ₹{calculateTotal()}
+                        <span className="text-xl font-bold text-white tracking-wider">Total for {cart.length} event{cart.length > 1 ? 's' : ''} :</span>
+                        <span className="text-2xl font-black text-white tracking-wider">
+                          ₹ {calculateTotal()}
                         </span>
                       </div>
                       <button
                         onClick={handleProceedToCheckout}
                         className="w-full bg-white text-black font-black py-4 rounded-lg hover:bg-gray-200 transition"
                       >
-                        PROCEED TO CHECKOUT
+                        <span className="tracking-wider">PROCEED TO CHECKOUT</span>
                       </button>
                     </div>
                   </>
@@ -872,7 +861,7 @@ const EventRegistrationPage = ({
             <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-black text-white">Team Details for {selectedTeamEvent.title}</h2>
+                  <h2 className="text-2xl font-black text-white tracking-wider">Team Details for {selectedTeamEvent.title}</h2>
                   <button
                     onClick={() => setShowTeamModal(false)}
                     className="text-gray-400 hover:text-white"
@@ -970,7 +959,7 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Team Name */}
       <div>
-        <label className="block text-sm font-bold text-white mb-2">
+        <label className="block text-sm font-bold text-white mb-2 tracking-wider">
           Team Name *
         </label>
         <input
@@ -985,13 +974,13 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
 
       {/* Team Members */}
       <div>
-        <h3 className="text-lg font-bold text-white mb-4">Team Members</h3>
+        <h3 className="text-lg font-bold text-white mb-4 tracking-wider">Team Members</h3>
         
         <div className="space-y-4">
           {teamMembers.map((member, index) => (
             <div key={index} className="border border-gray-700/50 rounded-lg p-4 bg-black/30">
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-md font-bold text-white">
+                <h4 className="text-md font-bold text-white tracking-wider">
                   Member {index + 1}
                 </h4>
                 {teamMembers.length > 1 && (
@@ -1000,14 +989,14 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
                     onClick={() => removeMember(index)}
                     className="text-red-500 hover:text-red-400 text-sm"
                   >
-                    Remove
+                    <span className="tracking-wider">Remove</span>
                   </button>
                 )}
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Full Name *</label>
+                  <label className="block text-xs text-gray-400 mb-1 tracking-wide">Full Name *</label>
                   <input
                     type="text"
                     value={member.name}
@@ -1019,7 +1008,7 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
                 </div>
                 
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Email *</label>
+                  <label className="block text-xs text-gray-400 mb-1 tracking-wide">Email *</label>
                   <input
                     type="email"
                     value={member.email}
@@ -1031,7 +1020,7 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
                 </div>
                 
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Phone *</label>
+                  <label className="block text-xs text-gray-400 mb-1 tracking-wide">Phone *</label>
                   <input
                     type="tel"
                     value={member.phone}
@@ -1043,7 +1032,7 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
                 </div>
                 
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">College *</label>
+                  <label className="block text-xs text-gray-400 mb-1 tracking-wide">College *</label>
                   <input
                     type="text"
                     value={member.college}
@@ -1065,10 +1054,10 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
             onClick={addMember}
             className="px-3 py-1 bg-gray-800 text-white rounded text-sm hover:bg-gray-700 transition"
           >
-            + Add Member
+            <span className="tracking-wider">+ Add Member</span>
           </button>
           <p className="text-gray-500 text-xs mt-1">
-            Maximum {teamSizeText}
+            <span className="tracking-wide">Maximum {teamSizeText}</span>
           </p>
         </div>
       </div>
@@ -1080,13 +1069,13 @@ const TeamMemberForm = ({ event, initialData, onSave, onCancel }) => {
           onClick={onCancel}
           className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
         >
-          Cancel
+          <span className="tracking-wider">Cancel</span>
         </button>
         <button
           type="submit"
           className="px-4 py-2 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition"
         >
-          Save Team Details
+          <span className="tracking-wider">Save Team Details</span>
         </button>
       </div>
     </form>
